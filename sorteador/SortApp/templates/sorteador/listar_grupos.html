@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-5 champions-bg">
+
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-light champions-title">
+            Grupos do Campeonato
+        </h1>
+        <p class="text-secondary">Cedro Champions Cup</p>
+    </div>
+
+    {% if not grupos %}
+        <div class="alert alert-warning text-center col-lg-6 mx-auto">
+            Nenhum grupo foi sorteado ainda.
+        </div>
+    {% endif %}
+
+    <div class="row justify-content-center">
+        {% for grupo, tabela in grupos.items %}
+        <div class="col-lg-8 mb-4">
+            <div class="group-card">
+                <div class="group-header">{{ grupo }}</div>
+
+                <div class="group-body">
+                    <table class="table table-dark table-hover text-center align-middle mb-0">
+                        <thead class="table-header-custom">
+                            <tr>
+                                <th class="text-start">Time</th>
+                                <th>J</th>
+                                <th>V</th>
+                                <th>E</th>
+                                <th>D</th>
+                                <th>GP</th>
+                                <th>GC</th>
+                                <th>SG</th>
+                                <th>Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in tabela %}
+                            <tr class="{% if forloop.counter <= 2 %}zona-classificacao{% endif %}">
+                                <td class="text-start">
+                                    <img src="{{ row.time.escudo.url }}" width="28" class="me-2">
+                                    {{ row.time.nome }}
+                                </td>
+                                <td>{{ row.J }}</td>
+                                <td>{{ row.V }}</td>
+                                <td>{{ row.E }}</td>
+                                <td>{{ row.D }}</td>
+                                <td>{{ row.GP }}</td>
+                                <td>{{ row.GC }}</td>
+                                <td>{{ row.SG }}</td>
+                                <td><strong>{{ row.PTS }}</strong></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<style>
+
+.champions-bg {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1b3a6f, #0a1428 70%);
+}
+
+.champions-title {
+    font-size: 2.8rem;
+    border-bottom: 3px solid #1e90ff;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.group-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.45);
+    overflow: hidden;
+}
+
+.group-header {
+    background: linear-gradient(to right, #1c3d6e, #13294b);
+    color: #ffffff;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.25rem;
+    padding: 12px;
+    letter-spacing: 1.5px;
+}
+
+.group-body {
+    padding: 20px;
+}
+
+.table-header-custom th {
+    background: rgba(255, 255, 255, 0.08);
+    color: #dbe7ff;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(30,144,255,0.4);
+}
+
+.table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background: rgba(255,255,255,0.04);
+}
+
+tr.zona-classificacao {
+    border-left: 3px solid rgba(30,144,255,0.6);
+    background: rgba(30, 144, 255, 0.06);
+}
+
+tr.zona-classificacao td {
+    font-weight: 500;
+}
+
+img {
+    vertical-align: middle;
+}
+</style>
+
+{% endblock %}

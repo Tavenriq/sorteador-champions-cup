@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load extras %}
+
+{% block content %}
+<div class="container-fluid py-5 champions-bg">
+
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-light champions-title">
+            Sorteio de Grupos
+        </h1>
+        <p class="text-secondary">Cedro Champions Cup</p>
+    </div>
+
+    {% if erro %}
+        <div class="alert alert-danger text-center">
+            {{ erro }}
+        </div>
+    {% endif %}
+
+    <div class="row justify-content-center">
+        {% for grupo, dados in grupos.items %}
+        <div class="col-lg-5 col-md-6 mb-4">
+
+            <div class="champions-card h-100">
+
+                <div class="champions-card-header">
+                    {{ grupo }}
+                </div>
+
+                <div class="p-4">
+                    {% for item in dados.times %}
+                        <div class="d-flex align-items-center mb-3 group-team">
+                            {% if item.time.escudo %}
+                                <img src="{{ item.time.escudo.url }}" class="team-logo me-3">
+                            {% endif %}
+                            <div>
+                                <strong class="team-name">{{ item.time.nome }}</strong><br>
+                                <small class="text-secondary">
+                                    Média do time: {{ item.media }}
+                                </small>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-secondary text-center mb-0">
+                            Nenhum time no grupo.
+                        </p>
+                    {% endfor %}
+                </div>
+
+                <div class="group-footer text-center">
+                    Média do grupo:
+                    <strong>{{ dados.soma_media|floatformat:1 }}</strong>
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if margem %}
+        <div class="alert alert-info text-center mt-4">
+            Diferença média entre os grupos:
+            <strong>{{ margem }}</strong>
+        </div>
+    {% endif %}
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-8 text-center d-flex justify-content-center gap-3 flex-wrap">
+
+            <form method="POST" action="{% url 'sortear_grupos' %}">
+                {% csrf_token %}
+                <button class="btn btn-primary btn-lg px-4">
+                    <i class="bi bi-shuffle me-2"></i> Refazer Sorteio
+                </button>
+            </form>
+
+            <form method="POST" action="{% url 'salvar_grupos' %}">
+                {% csrf_token %}
+                <button class="btn btn-success btn-lg px-4 fw-bold">
+                    <i class="bi bi-save me-2"></i> Salvar Grupos
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<style>
+
+.champions-bg {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1b3a6f, #0a1428 70%);
+}
+
+.champions-title {
+    font-size: 2.8rem;
+    border-bottom: 3px solid #1e90ff;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.champions-card {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.champions-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 36px rgba(30,144,255,0.35);
+}
+
+.champions-card-header {
+    background: linear-gradient(to right, #1e90ff, #0a58ca);
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 14px;
+    font-size: 1.2rem;
+}
+
+.team-logo {
+    width: 45px;
+    height: auto;
+}
+
+.team-name {
+    color: #ffffff;
+    font-size: 1.05rem;
+}
+
+.group-team {
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.group-footer {
+    background: rgba(0,0,0,0.35);
+    padding: 12px;
+    color: #ffffff;
+    font-size: 0.95rem;
+}
+</style>
+
+{% endblock %}

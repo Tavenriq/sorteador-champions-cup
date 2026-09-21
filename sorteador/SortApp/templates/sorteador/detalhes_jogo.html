@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-5 champions-bg">
+
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-light champions-title">
+            {{ jogo.time_a.nome }} x {{ jogo.time_b.nome }}
+        </h1>
+        <p class="text-secondary">Detalhes da Partida</p>
+    </div>
+
+    <div class="row justify-content-center mb-4">
+        <div class="col-lg-8">
+            <div class="match-card text-center">
+
+                <div class="row align-items-center">
+
+                    <div class="col-md-4">
+                        {% if jogo.time_a.escudo %}
+                            <img src="{{ jogo.time_a.escudo.url }}" class="team-logo mb-2">
+                        {% endif %}
+                        <h5 class="team-name">{{ jogo.time_a.nome }}</h5>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="vs-box">
+                            {{ jogo.gols_time_a }} x {{ jogo.gols_time_b }}
+                        </div>
+
+                        {% if jogo.teve_penaltis %}
+                            <div class="penaltis-text">
+                                Pênaltis: {{ jogo.penaltis_time_a }} x {{ jogo.penaltis_time_b }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-4">
+                        {% if jogo.time_b.escudo %}
+                            <img src="{{ jogo.time_b.escudo.url }}" class="team-logo mb-2">
+                        {% endif %}
+                        <h5 class="team-name">{{ jogo.time_b.nome }}</h5>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="match-card mb-4">
+                <h4 class="section-title mb-4">Gols da Partida</h4>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <h6 class="text-light text-center mb-3">
+                            {{ jogo.time_a.nome }}
+                        </h6>
+
+                        {% if gols_time_a %}
+                            <ul class="list-group list-group-flush">
+                                {% for gol in gols_time_a %}
+                                    <li class="list-group-item bg-transparent text-light">
+                                        <span class="goal-icon">⚽</span>
+                                        {{ gol.jogador.nome }}
+                                        {% if gol.quantidade > 1 %}
+                                            <span class="text-secondary">
+                                                ({{ gol.quantidade }})
+                                            </span>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-secondary text-center">
+                                Nenhum gol
+                            </p>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-6">
+                        <h6 class="text-light text-center mb-3">
+                            {{ jogo.time_b.nome }}
+                        </h6>
+
+                        {% if gols_time_b %}
+                            <ul class="list-group list-group-flush">
+                                {% for gol in gols_time_b %}
+                                    <li class="list-group-item bg-transparent text-light">
+                                        <span class="goal-icon">⚽</span>
+                                        {{ gol.jogador.nome }}
+                                        {% if gol.quantidade > 1 %}
+                                            <span class="text-secondary">
+                                                ({{ gol.quantidade }})
+                                            </span>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-secondary text-center">
+                                Nenhum gol
+                            </p>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'listar_jogos' %}" class="btn btn-outline-light">
+            Voltar para a Tabela de Jogos
+        </a>
+    </div>
+
+</div>
+
+<style>
+
+.champions-bg {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1b3a6f, #0a1428 70%);
+}
+
+.champions-title {
+    font-size: 2.5rem;
+    border-bottom: 3px solid #1e90ff;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.match-card {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.team-logo {
+    width: 70px;
+}
+
+.team-name {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.vs-box {
+    font-size: 2.6rem;
+    font-weight: bold;
+    color: #1e90ff;
+}
+
+.penaltis-text {
+    font-size: 1rem;
+    color: #cccccc;
+}
+
+.section-title {
+    color: #ffffff;
+    border-bottom: 2px solid #1e90ff;
+    padding-bottom: 6px;
+}
+
+.goal-icon {
+    font-size: 1rem;
+    line-height: 1;
+    margin-right: 6px;
+    display: inline-block;
+}
+
+.list-group-item {
+    font-size: 1rem;
+    line-height: 1.4;
+}
+</style>
+{% endblock %}

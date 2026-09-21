@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+staticfiles/
+.env
+.vercel
+venv/
+.venv/

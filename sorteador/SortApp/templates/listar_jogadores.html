@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-5 champions-bg">
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-10 d-flex flex-wrap justify-content-between align-items-center gap-3">
+
+            <div>
+                <h1 class="fw-bold text-light champions-title mb-0">
+                    Jogadores
+                </h1>
+                <p class="text-secondary mb-0">Cedro Champions Cup</p>
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap">
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'cadastrar_jogador' %}" class="btn btn-success px-4">
+                        + Adicionar Jogador
+                    </a>
+
+                    <form method="post" action="{% url 'excluir_todos_jogadores' %}"
+                        onsubmit="return confirm('Tem certeza que deseja excluir TODOS os jogadores?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger px-4">
+                            Excluir Todos
+                        </button>
+                    </form>
+                {% endif %}
+
+                <a href="{% url 'listar_times_completos' %}" class="btn btn-primary px-4">
+                    Ver Times e Jogadores
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+
+    {% if jogadores %}
+
+        {% regroup jogadores by classificacao as potes %}
+
+        {% for pote in potes %}
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-10">
+
+                <div class="champions-card h-100">
+
+                    <!-- Cabeçalho do Pote -->
+                    <div class="champions-card-header">
+                        Pote {{ pote.grouper }}
+                    </div>
+
+                    <!-- Corpo -->
+                    <div class="champions-card-body">
+
+                        {% for j in pote.list %}
+                        <div class="player-row d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <strong class="player-name">{{ j.nome }}</strong><br>
+                                <small class="text-secondary">
+                                    Overall: {{ j.overall }} |
+                                    {% if j.time %}
+                                        {{ j.time.nome }}
+                                    {% else %}
+                                        Sem time
+                                    {% endif %}
+                                </small>
+                            </div>
+
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'editar_jogador' j.id %}" class="edit-icon">
+                                    ✏️
+                                </a>
+                            {% endif %}
+
+                        </div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    {% else %}
+        <div class="alert alert-warning text-center col-lg-6 mx-auto">
+            Não há jogadores cadastrados.
+        </div>
+    {% endif %}
+
+</div>
+
+<style>
+
+.champions-bg {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1b3a6f, #0a1428 70%);
+}
+
+.champions-title {
+    font-size: 2.6rem;
+    border-bottom: 3px solid #1e90ff;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.champions-card {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.champions-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 14px 40px rgba(30,144,255,0.35);
+}
+
+.champions-card-header {
+    background: linear-gradient(to right, #1c3d6e, #13294b);
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 14px;
+    font-size: 1.2rem;
+}
+
+.champions-card-body {
+    padding: 18px;
+}
+
+.player-row {
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    transition: all 0.25s ease;
+    background: rgba(10, 20, 40, 0.6);
+    border: 1px solid transparent;
+}
+
+.player-row:hover {
+    background: rgba(30,144,255,0.15);
+    border-color: rgba(30,144,255,0.6);
+    transform: translateX(6px);
+}
+
+.player-name {
+    color: #ffffff;
+    font-size: 1.05rem;
+}
+
+.edit-icon {
+    color: #1e90ff;
+    font-size: 1.3rem;
+    text-decoration: none;
+}
+
+.edit-icon:hover {
+    color: #63b3ff;
+}
+</style>
+
+{% endblock %}

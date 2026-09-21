@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-5 champions-bg">
+
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-light champions-title">
+            Tabela de Jogos
+        </h1>
+        <p class="text-secondary">Cedro Champions Cup</p>
+    </div>
+
+    {% if not jogos_por_rodada %}
+        <div class="alert alert-warning text-center">
+            Nenhum jogo foi sorteado ainda.
+        </div>
+    {% endif %}
+
+    {% for rodada, jogos in jogos_por_rodada.items %}
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-10">
+
+                <div class="rodada-header mb-4">
+                    <span>{{ rodada }}ª RODADA</span>
+                </div>
+
+                {% for jogo in jogos %}
+                    <a href="{% url 'detalhes_jogo' jogo.id %}" class="text-decoration-none">
+                        <div class="match-card mb-4">
+                            <div class="row align-items-center text-center">
+
+                                <div class="col-md-5 d-flex align-items-center justify-content-end gap-3">
+                                    <strong class="team-name">{{ jogo.time_a.nome }}</strong>
+                                    {% if jogo.time_a.escudo %}
+                                        <img src="{{ jogo.time_a.escudo.url }}" class="team-logo">
+                                    {% endif %}
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="vs-box">
+                                        {% if jogo.status == 'FINALIZADO' %}
+                                            {{ jogo.gols_time_a }} x {{ jogo.gols_time_b }}
+
+                                            {% if jogo.gols_time_a == jogo.gols_time_b and jogo.penaltis_time_a != None %}
+                                                <div style="font-size: 0.85rem; color: #ccc;">
+                                                    (P {{ jogo.penaltis_time_a }} x {{ jogo.penaltis_time_b }})
+                                                </div>
+                                            {% endif %}
+                                        {% else %}
+                                            X
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5 d-flex align-items-center justify-content-start gap-3">
+                                    {% if jogo.time_b.escudo %}
+                                        <img src="{{ jogo.time_b.escudo.url }}" class="team-logo">
+                                    {% endif %}
+                                    <strong class="team-name">{{ jogo.time_b.nome }}</strong>
+                                </div>
+
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+
+            </div>
+        </div>
+    {% endfor %}
+
+</div>
+
+<style>
+
+.champions-bg {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1b3a6f, #0a1428 70%);
+}
+
+.champions-title {
+    font-size: 2.8rem;
+    border-bottom: 3px solid #1e90ff;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.rodada-header {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #ffffff;
+    letter-spacing: 2px;
+    background: linear-gradient(to right, #1c3d6e, #13294b);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.match-card {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.match-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 35px rgba(30,144,255,0.4);
+}
+
+.team-logo {
+    width: 55px;
+    height: auto;
+}
+
+.team-name {
+    color: #ffffff;
+    font-size: 1.1rem;
+}
+
+.vs-box {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #1e90ff;
+    line-height: 1.2;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid py-5 champions-bg">
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-10">
+
+            <div class="champions-card p-4 d-flex align-items-center gap-4 flex-wrap">
+
+                {% if time.escudo %}
+                    <img src="{{ time.escudo.url }}"
+                         alt="Escudo de {{ time.nome }}"
+                         class="team-shield">
+                {% endif %}
+
+                <div>
+                    <h1 class="fw-bold text-light mb-2">{{ time.nome }}</h1>
+                    <h5 class="text-secondary mb-0">
+                        Overall total:
+                        <span class="badge bg-primary fs-5 ms-2">
+                            {{ overall_total }}
+                        </span>
+                    </h5>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+            <div class="champions-card">
+
+                <div class="champions-card-header">
+                    Jogadores do Time
+                </div>
+
+                <div class="list-group list-group-flush champions-list">
+
+                    {% for jogador in jogadores %}
+                        <div class="list-group-item champions-list-item d-flex align-items-center justify-content-between">
+
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="player-icon">
+                                    {% if jogador.classificacao == 1 %}
+                                        <span title="Goleiro">🥅</span>
+                                    {% elif jogador.classificacao == 2 %}
+                                        <span class="badge bg-warning text-dark fw-bold"
+                                              title="Capitão"
+                                              style="font-family: monospace;">
+                                            C
+                                        </span>
+                                    {% elif jogador.classificacao >= 3 %}
+                                        <span title="Jogador de Linha">👕</span>
+                                    {% endif %}
+                                </div>
+
+                                <span class="text-light fw-semibold">
+                                    {{ jogador.nome }}
+                                </span>
+                            </div>
+
+                        </div>
+                    {% empty %}
+                        <div class="p-4 text-center text-secondary">
+                            Nenhum jogador cadastrado neste time.
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <!-- Voltar -->
+            <div class="text-center mt-4">
+                <a href="{% url 'listar_times' %}" class="btn btn-outline-light px-4">
+                    ← Voltar para lista de times
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<style>
+
+.champions-bg {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1b3a6f, #0a1428 70%);
+}
+
+.champions-card {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    overflow: hidden;
+}
+
+.champions-card-header {
+    background: linear-gradient(to right, #1c3d6e, #13294b);
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 14px;
+    font-size: 1.2rem;
+}
+
+.team-shield {
+    height: 100px;
+    width: auto;
+    filter: drop-shadow(0 0 8px rgba(30,144,255,0.6));
+}
+
+.champions-list {
+    background: transparent;
+}
+
+.champions-list-item {
+    background: rgba(10, 20, 40, 0.6);
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.champions-list-item:hover {
+    background: rgba(30, 144, 255, 0.2);
+}
+
+.player-icon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+</style>
+
+{% endblock %}
