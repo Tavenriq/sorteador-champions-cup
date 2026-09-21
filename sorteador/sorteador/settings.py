@@ -20,6 +20,7 @@ LOGOUT_REDIRECT_URL = 'dashboard'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 import os
+import dj_database_url
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -116,7 +117,7 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-    
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
