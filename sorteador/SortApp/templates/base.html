@@ -90,11 +90,11 @@
         <div class="collapse navbar-collapse" id="menu">
 
             <ul class="navbar-nav ms-auto align-items-center gap-2">
-
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'listar_jogadores' %}">Jogadores</a>
                 </li>
-
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'listar_times' %}">Times</a>
                 </li>

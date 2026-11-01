@@ -61,7 +61,7 @@ def dashboard(request):
         'total_times': total_times
     })
 
-
+@login_required
 def listar_jogadores(request):
     jogadores = (
         Jogador.objects
