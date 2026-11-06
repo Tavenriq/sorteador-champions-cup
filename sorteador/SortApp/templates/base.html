@@ -31,10 +31,14 @@
             padding-top: 100px;
         }
 
-        /* páginas sem navbar */
+        /* Páginas sem navbar */
         main.no-navbar {
             padding-top: 0;
         }
+
+        /* ==========================================
+        NAVBAR - DESKTOP
+        ========================================== */
 
         .navbar-champions {
             background: rgba(10, 25, 47, 0.95);
@@ -56,6 +60,35 @@
             color: #ffffff;
         }
 
+        /* Corrige o tamanho do logo no PC */
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+        }
+
+        .navbar-brand img {
+            height: 36px;
+            width: auto;
+            max-width: 180px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        /* Alinhamento vertical dos itens do menu */
+        .navbar-champions .navbar-nav {
+            align-items: center;
+        }
+
+        .navbar-champions .nav-link {
+            display: flex;
+            align-items: center;
+        }
+
+        /* ==========================================
+        FOOTER
+        ========================================== */
+
         .footer-minimal {
             margin-top: auto;
             padding: 15px 10px;
@@ -70,12 +103,11 @@
             color: rgba(255,255,255,0.7);
             font-weight: 500;
         }
-        
+
         /* ==========================================
-        RESPONSIVIDADE GLOBAL - CEDRO CHAMPIONS CUP
+        RESPONSIVIDADE GLOBAL
         ========================================== */
 
-        /* Evita elementos ultrapassarem a largura da tela */
         * {
             box-sizing: border-box;
         }
@@ -96,19 +128,19 @@
             height: auto;
         }
 
-        /* Melhora a área de toque dos botões */
+        /* Botões */
         .btn {
             min-height: 40px;
         }
 
-        /* Campos de formulário */
+        /* Formulários */
         .form-control,
         .form-select {
             min-height: 44px;
             font-size: 1rem;
         }
 
-        /* Tabelas podem rolar horizontalmente */
+        /* Tabelas responsivas */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
@@ -116,12 +148,12 @@
         }
 
         /* ==========================================
-        CELULAR
+        CELULAR E TABLET
         ========================================== */
 
         @media (max-width: 767.98px) {
 
-            /* Espaçamento geral das páginas */
+            /* Espaçamento geral */
             main {
                 padding-top: 76px;
             }
@@ -141,9 +173,12 @@
                 gap: 8px !important;
             }
 
+            /* Logo mobile */
             .navbar-brand img {
                 height: 30px;
                 width: auto;
+                max-width: 150px;
+                object-fit: contain;
             }
 
             .navbar-toggler {
@@ -179,7 +214,7 @@
                 margin-left: 0 !important;
             }
 
-            /* Botões maiores e mais fáceis de tocar */
+            /* Botões */
             .btn {
                 font-size: 0.95rem;
                 padding: 10px 14px;
@@ -195,16 +230,21 @@
                 border-radius: 14px;
             }
 
-            /* Container das páginas */
+            /* Containers */
             .container-fluid.champions-bg {
                 padding-left: 12px !important;
                 padding-right: 12px !important;
             }
 
-            /* Rodapé */
+            /* Footer */
             .footer-minimal {
                 font-size: 0.72rem;
                 padding: 12px 8px;
+            }
+
+            /* Navbar sempre visível no celular */
+            .navbar-hidden {
+                top: 0 !important;
             }
         }
 
@@ -220,6 +260,7 @@
 
             .navbar-brand img {
                 height: 26px;
+                max-width: 120px;
             }
 
             .btn {
@@ -228,6 +269,7 @@
         }
 
     </style>
+
 </head>
 
 <body>
