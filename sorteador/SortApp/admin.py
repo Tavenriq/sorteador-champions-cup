@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Jogo, Gol, Jogador
+from .models import Jogo, Gol, Jogador, EdicaoCampeonato, JogadorCampeao
 
 
 class GolTimeAInline(admin.TabularInline):
@@ -43,3 +43,25 @@ class GolTimeBInline(admin.TabularInline):
 @admin.register(Jogo)
 class JogoAdmin(admin.ModelAdmin):
     inlines = [GolTimeAInline, GolTimeBInline]
+
+class JogadorCampeaoInline(admin.TabularInline):
+    model = JogadorCampeao
+    extra = 5
+
+
+@admin.register(EdicaoCampeonato)
+class EdicaoCampeonatoAdmin(admin.ModelAdmin):
+    list_display = (
+        'ano',
+        'campeao',
+        'vice_campeao',
+    )
+
+    list_filter = ('ano',)
+
+    search_fields = (
+        'campeao',
+        'vice_campeao',
+    )
+
+    inlines = [JogadorCampeaoInline]

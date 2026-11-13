@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect, get_object_or_404
 from collections import defaultdict
 from django.contrib import messages
-from .models import Jogador, Time, Jogo
+from .models import Jogador, Time, Jogo, EdicaoCampeonato
 from .forms import JogadorForm, TimeForm
 from itertools import product
 from django.db import models
@@ -539,4 +539,15 @@ def calcular_classificacao(grupo_nome):
         tabela.values(),
         key=lambda x: (x['PTS'], x['SG'], x['GP']),
         reverse=True
+    )
+
+def hall_da_fama(request):
+    edicoes = EdicaoCampeonato.objects.prefetch_related(
+        'jogadores'
+    ).all()
+
+    return render(
+        request,
+        'hall_da_fama.html',
+        {'edicoes': edicoes}
     )

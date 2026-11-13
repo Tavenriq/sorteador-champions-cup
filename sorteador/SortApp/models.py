@@ -71,3 +71,54 @@ class Gol(models.Model):
     def __str__(self):
         return f"{self.jogador.nome} ({self.quantidade})"
 
+
+class EdicaoCampeonato(models.Model):
+    ano = models.PositiveIntegerField(unique=True)
+
+    campeao = models.CharField(max_length=100)
+    escudo_campeao = models.ImageField(
+        upload_to='hall_da_fama/escudos/'
+    )
+
+    vice_campeao = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    gols_campeao = models.PositiveIntegerField(
+        null=True,
+        blank=True
+    )
+
+    gols_vice = models.PositiveIntegerField(
+        null=True,
+        blank=True
+    )
+
+    data_cadastro = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-ano']
+        verbose_name = 'Edição do Campeonato'
+        verbose_name_plural = 'Edições do Campeonato'
+
+    def __str__(self):
+        return f'{self.ano} - Campeão: {self.campeao}'
+
+
+class JogadorCampeao(models.Model):
+    edicao = models.ForeignKey(
+        EdicaoCampeonato,
+        on_delete=models.CASCADE,
+        related_name='jogadores'
+    )
+
+    nome = models.CharField(max_length=100)
+
+    class Meta:
+        ordering = ['nome']
+        verbose_name = 'Jogador Campeão'
+        verbose_name_plural = 'Jogadores Campeões'
+
+    def __str__(self):
+        return self.nome

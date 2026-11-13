@@ -21,6 +21,7 @@ urlpatterns = [
     path('jogos/<int:jogo_id>/', views.detalhes_jogo, name='detalhes_jogo'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path('hall-da-fama/', views.hall_da_fama, name='hall_da_fama'),
 
     path('', views.root_redirect),
 

@@ -306,6 +306,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'listar_jogos' %}">Jogos</a>
                 </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hall_da_fama' %}">
+                        <i class="bi bi-trophy-fill text-warning me-1"></i>
+                        Hall da Fama
+                    </a>
+                </li>
 
                 {% if user.is_authenticated %}
                 <li class="nav-item">

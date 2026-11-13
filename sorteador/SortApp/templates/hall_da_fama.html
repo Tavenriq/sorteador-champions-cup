@@ -1,0 +1,270 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid hall-bg py-5">
+
+    <!-- CABEÇALHO -->
+    <div class="text-center mb-5">
+
+        <i class="bi bi-trophy-fill hall-trophy"></i>
+
+        <h1 class="fw-bold hall-title">
+            HALL DA FAMA
+        </h1>
+
+        <p class="text-secondary fs-5">
+            Os campeões da Cedro Champions Cup
+        </p>
+
+    </div>
+
+    <!-- EDIÇÕES -->
+    <div class="container">
+
+        {% for edicao in edicoes %}
+
+        <div class="hall-card mb-5">
+
+            <!-- CABEÇALHO DA EDIÇÃO -->
+            <div class="hall-card-header">
+                <i class="bi bi-trophy-fill me-2"></i>
+                EDIÇÃO {{ edicao.ano }}
+            </div>
+
+            <div class="p-4">
+
+                <!-- CAMPEÃO -->
+                <div class="text-center mb-4">
+
+                    <span class="champion-label">
+                        CAMPEÃO
+                    </span>
+
+                    <img src="{{ edicao.escudo_campeao.url }}"
+                         alt="Escudo {{ edicao.campeao }}"
+                         class="hall-shield">
+
+                    <h2 class="champion-name">
+                        {{ edicao.campeao }}
+                    </h2>
+
+                    {% if edicao.vice_campeao %}
+                    <p class="text-secondary mt-2">
+                        Vice-campeão: {{ edicao.vice_campeao }}
+                    </p>
+                    {% endif %}
+
+                    {% if edicao.gols_campeao != None and edicao.gols_vice != None %}
+                    <div class="final-score">
+                        {{ edicao.gols_campeao }}
+                        <span>x</span>
+                        {{ edicao.gols_vice }}
+                    </div>
+
+                    <p class="text-secondary small">
+                        Placar da final
+                    </p>
+                    {% endif %}
+
+                </div>
+
+                <hr class="hall-divider">
+
+                <!-- ELENCO -->
+                <div class="text-center">
+
+                    <h4 class="text-light fw-bold mb-4">
+                        <i class="bi bi-people-fill me-2"></i>
+                        ELENCO CAMPEÃO
+                    </h4>
+
+                    <div class="hall-players">
+
+                        {% for jogador in edicao.jogadores.all %}
+
+                        <div class="hall-player">
+                            <i class="bi bi-person-fill"></i>
+                            {{ jogador.nome }}
+                        </div>
+
+                        {% empty %}
+
+                        <p class="text-secondary">
+                            Nenhum jogador cadastrado para esta edição.
+                        </p>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="text-center hall-empty">
+            <i class="bi bi-trophy"></i>
+
+            <h3 class="text-light mt-3">
+                Ainda não temos campeões registrados
+            </h3>
+
+            <p class="text-secondary">
+                Em breve, o Hall da Fama contará com os campeões
+                das edições da Cedro Champions Cup.
+            </p>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<style>
+
+.hall-bg {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1b3a6f, #0a1428 70%);
+}
+
+.hall-trophy {
+    font-size: 4rem;
+    color: #facc15;
+    filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.4));
+}
+
+.hall-title {
+    font-size: 2.8rem;
+    color: #ffffff;
+    border-bottom: 3px solid #1e90ff;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.hall-card {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.hall-card-header {
+    background: linear-gradient(to right, #1e90ff, #0a58ca);
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 16px;
+    font-size: 1.2rem;
+}
+
+.champion-label {
+    display: inline-block;
+    color: #facc15;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+}
+
+.hall-shield {
+    display: block;
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    margin: 0 auto 20px;
+    filter: drop-shadow(0 0 12px rgba(30,144,255,0.3));
+}
+
+.champion-name {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.final-score {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-top: 15px;
+}
+
+.final-score span {
+    color: #1e90ff;
+    margin: 0 10px;
+}
+
+.hall-divider {
+    border-color: rgba(255,255,255,0.15);
+    margin: 30px 0;
+}
+
+.hall-players {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.hall-player {
+    background: rgba(30,144,255,0.12);
+    border: 1px solid rgba(30,144,255,0.25);
+    color: #e2e8f0;
+    border-radius: 10px;
+    padding: 12px 20px;
+    min-width: 180px;
+    text-align: center;
+}
+
+.hall-player i {
+    color: #60a5fa;
+    margin-right: 8px;
+}
+
+.hall-empty {
+    padding: 60px 20px;
+}
+
+.hall-empty i {
+    font-size: 4rem;
+    color: #facc15;
+}
+
+@media (max-width: 767.98px) {
+
+    .hall-title {
+        font-size: 1.8rem;
+    }
+
+    .hall-trophy {
+        font-size: 3rem;
+    }
+
+    .hall-shield {
+        width: 110px;
+        height: 110px;
+    }
+
+    .champion-name {
+        font-size: 1.5rem;
+    }
+
+    .hall-player {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .hall-card-header {
+        font-size: 1rem;
+    }
+}
+
+</style>
+
+{% endblock %}
